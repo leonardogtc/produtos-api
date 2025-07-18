@@ -2,10 +2,7 @@ package br.com.leonardogtc.productapi.controller;
 
 import br.com.leonardogtc.productapi.model.Produto;
 import br.com.leonardogtc.productapi.repository.ProdutoRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -22,10 +19,14 @@ public class ProdutoController {
     @PostMapping
     public Produto salvar(@RequestBody Produto produto) {
         System.out.println("Produto salvo: " + produto);
-        var id = UUID.randomUUID().toString();
+        var id = UUID.randomUUID().toString(); // Universal Unique Identifier (UUID) para gerar um ID único
         produto.setId(id); // Gera um ID único para o produto
-        // O Spring Data JPA cuida de salvar o produto no banco de dados
-        produtoRepository.save(produto);
+        produtoRepository.save(produto); // O Spring Data JPA cuida de salvar o produto no banco de dados
         return produto;
+    }
+
+    @GetMapping("/{id}")
+    public Produto obterProdutoPorId(@PathVariable("id") String id) {
+        return produtoRepository.findById(id).orElse(null); // Busca o produto pelo ID
     }
 }
