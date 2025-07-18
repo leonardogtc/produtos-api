@@ -4,6 +4,7 @@ import br.com.leonardogtc.productapi.model.Produto;
 import br.com.leonardogtc.productapi.repository.ProdutoRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -39,6 +40,11 @@ public class ProdutoController {
     public void atualizarProduto(@PathVariable("id") String id, @RequestBody Produto produto) {
         produto.setId(id); // Define o ID do produto a ser atualizado
         produtoRepository.save(produto); // Atualiza o produto no banco de dados
+    }
+
+    @GetMapping
+    public List<Produto> buscar(@RequestParam("nome") String nome) {
+        return produtoRepository.findByNome(nome); // Busca produtos pelo nome
     }
 
 }
